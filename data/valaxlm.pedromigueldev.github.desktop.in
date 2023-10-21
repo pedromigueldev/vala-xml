@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=vala-xml
+Exec=vala-xml
+Icon=valaxlm.pedromigueldev.github
+Terminal=false
+Type=Application
+Categories=GTK;
+StartupNotify=true

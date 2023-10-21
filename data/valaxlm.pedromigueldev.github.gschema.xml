@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="vala-xml">
+	<schema id="valaxlm.pedromigueldev.github" path="/valaxlm/pedromigueldev/github/">
+	</schema>
+</schemalist>

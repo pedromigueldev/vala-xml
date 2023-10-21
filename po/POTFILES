@@ -1,0 +1,6 @@
+data/valaxlm.pedromigueldev.github.desktop.in
+data/valaxlm.pedromigueldev.github.metainfo.xml.in
+data/valaxlm.pedromigueldev.github.gschema.xml
+src/main.vala
+src/window.vala
+src/window.ui

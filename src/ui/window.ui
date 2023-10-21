@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="Adw" version="1.4"/>
+  <template class="ValaXmlWindow" parent="AdwWindow">
+    <property name="width-request">360</property>
+    <property name="height-request">200</property>
+    <property name="default-width">640</property>
+    <property name="default-height">480</property>
+    <child>
+      <object class="AdwBreakpoint">
+        <condition>max-width: 400sp</condition>
+        <setter object="split_view" property="collapsed">True</setter>
+      </object>
+    </child>
+    <property name="content">
+      <object class="AdwToolbarView">
+        <property name="content">
+          <object class="AdwOverlaySplitView" id="split_view">
+            <property name="show-sidebar"
+                      bind-source="ValaXmlSideBar"
+                      bind-property="sidebar_active"
+                      bind-flags="sync-create|bidirectional"/>
+            <property name="show-sidebar"
+                      bind-source="show_sidebar_button_hidden"
+                      bind-property="active"
+                      bind-flags="sync-create|bidirectional"/>
+            <property name="sidebar">
+              <object class="ValaXmlSideBar" id="ValaXmlSideBar"></object>
+            </property>
+            <property name="content">
+              <object class="GtkOverlay" id="overlay">
+
+                <child type="overlay">
+                  <object class="GtkBox">
+                    <property name="hexpand">true</property>
+                    <property name="vexpand">true</property>
+                    <property name="valign">start</property>
+                    <property name="homogeneous">true</property>
+                    <property name="margin-top">2</property>
+                    <property name="margin-start">2</property>
+                    <property name="margin-end">2</property>
+
+                    <child>
+                      <object class="GtkToggleButton" id="show_sidebar_button_hidden">
+                        <property name="valign">start</property>
+                        <property name="halign">start</property>
+
+                        <style>
+                          <class name="circular" />
+                          <class name="osd" />
+                          <class name="hide" />
+                          <class name="over_btn" />
+                        </style>
+
+                        <child>
+                          <object class="GtkImage">
+                            <property name="icon-name">sidebar-show-symbolic</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkButton" id="close_button">
+                        <property name="valign">end</property>
+                        <property name="halign">end</property>
+
+                        <style>
+                          <class name="circular" />
+                          <class name="osd" />
+                          <class name="hide" />
+                        </style>
+
+                        <child>
+                          <object class="GtkImage">
+                            <property name="icon-name">window-close-symbolic</property>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+
+                <child>
+                  <object class="AdwToolbarView">
+                    <style>
+                      <class name="raised"/>
+                    </style>
+                    <property name="content">
+                      <object class="GtkBox">
+                        <property name="spacing">10</property>
+                        <property name="margin-top">10</property>
+                        <property name="margin-bottom">10</property>
+                        <property name="margin-start">10</property>
+                        <property name="margin-end">10</property>
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">True</property>
+
+                      </object>
+
+                      <object class="AdwViewStack" id="status_page">
+
+                      </object>
+
+                    </property>
+                  </object>
+                </child>
+              </object>
+            </property>
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>
+

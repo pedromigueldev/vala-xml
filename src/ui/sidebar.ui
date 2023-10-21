@@ -1,0 +1,366 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="Adw" version="1.4"/>
+  <template class="ValaXmlSideBar" parent="AdwNavigationPage">
+    <property name="title" translatable="yes">Sidebar</property>
+    <property name="tag">sidebar</property>
+
+    <property name="sidebar_active"
+      bind-source="show_sidebar_button"
+      bind-property="active"
+      bind-flags="sync-create|bidirectional"/>
+
+    <property name="child">
+      <object class="AdwToolbarView">
+
+        <child type="top">
+          <object class="AdwHeaderBar">
+            <property name="show-title">False</property>
+
+            <child type="start">
+              <object class="GtkButton">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+
+                <style>
+                  <class name="flat"/>
+                </style>
+
+                <child>
+                  <object class="GtkImage">
+                    <property name="icon-name">view-refresh-symbolic</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="start">
+              <object class="GtkToggleButton" id="show_sidebar_button">
+                <property name="icon-name">sidebar-show-symbolic</property>
+                <property name="active">True</property>
+              </object>
+            </child>
+
+            <child type="end">
+              <object class="GtkBox">
+
+                  <child>
+                    <object class="GtkBox" id="page-nav">
+                      <property name="spacing">2</property>
+
+                      <child>
+                        <object class="GtkButton">
+                          <property name="visible">True</property>
+                          <property name="can_focus">True</property>
+                          <property name="receives_default">True</property>
+
+                          <style>
+                            <class name="flat"/>
+                          </style>
+
+                          <child>
+                            <object class="GtkImage">
+                              <property name="icon-name">edit-undo-symbolic</property>
+                            </object>
+                          </child>
+
+                        </object>
+                      </child>
+
+                      <child>
+                        <object class="GtkButton">
+                          <property name="visible">True</property>
+                          <property name="can_focus">True</property>
+                          <property name="receives_default">True</property>
+
+                          <style>
+                            <class name="flat"/>
+                          </style>
+
+                          <child>
+                            <object class="GtkImage">
+                              <property name="icon-name">edit-redo-symbolic</property>
+                            </object>
+                          </child>
+
+                        </object>
+                      </child>
+
+                    </object>
+                  </child>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <child type="bottom">
+          <object class="GtkBox">
+            <property name="halign">fill</property>
+            <property name="valign">fill</property>
+
+            <child>
+              <object class="GtkButton" id="add space">
+                <style>
+                  <class name="flat"/>
+                  <class name="circular"/>
+                </style>
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="margin-start">6</property>
+                <property name="margin-bottom">6</property>
+
+                <child>
+                  <object class="GtkImage">
+                    <property name="pixel-size">14px</property>
+                    <property name="icon-name">list-add-symbolic</property>
+                  </object>
+                </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="AdwCarouselIndicatorDots">
+                <property name="carousel">carousel_space</property>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
+        <property name="content">
+          <object class="GtkBox">
+            <property name="orientation">vertical</property>
+
+            <child>
+              <object class="AdwCarousel" id="carousel_space">
+                <property name="vexpand">True</property>
+                <property name="hexpand">True</property>
+                <property name="valign">fill</property>
+                <property name="allow-long-swipes">True</property>
+
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">vertical</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+
+                    <child>
+                      <object class="GtkBox">
+                        <property name="margin-start">6</property>  <!-- Left margin -->
+                        <property name="margin-end">6</property>    <!-- Right margin -->
+                        <property name="margin-top">6</property>     <!-- Top margin -->
+                        <property name="margin-bottom">6</property>
+                        <property name="orientation">vertical</property>
+                        <property name="hexpand">True</property>
+                        <child>
+                          <object class="GtkBox" id="favorites">
+                          </object>
+                        </child>
+                        <child>
+                          <object class="GtkBox">
+                            <style>
+                                <class name="linked"/>
+                            </style>
+                            <child>
+                              <object class="GtkEntry">
+                                <property name="hexpand">True</property>
+                                <property name="placeholder-text">Pesquise</property>
+                              </object>
+                            </child>
+                            <child>
+                              <object class="GtkButton">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">True</property>
+                                <child>
+                                  <object class="GtkImage">
+                                    <property name="icon-name">edit-find</property>
+                                  </object>
+                                </child>
+                              </object>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+
+                    <!-- pined -->
+                    <child>
+                      <object class="GtkBox">
+                        <property name="orientation">horizontal</property>
+                        <property name="margin-start">12</property>  <!-- Left margin -->
+                        <property name="margin-end">12</property>    <!-- Right margin -->
+                        <property name="margin-top">14</property>
+                        <property name="margin-bottom">14</property>
+                        <property name="spacing">8</property>
+
+                        <child>
+                          <object class="GtkButton">
+                            <property name="hexpand">true</property>
+
+                            <child>
+                              <object class="GtkImage">
+                                <property name="icon-name">list-add-symbolic</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkButton">
+                            <property name="hexpand">true</property>
+
+                            <child>
+                              <object class="GtkImage">
+                                <property name="icon-name">list-add-symbolic</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkButton">
+                            <property name="hexpand">true</property>
+
+                            <child>
+                              <object class="GtkImage">
+                                <property name="icon-name">list-add-symbolic</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkButton">
+                            <property name="hexpand">true</property>
+
+                            <child>
+                              <object class="GtkImage">
+                                <property name="icon-name">list-add-symbolic</property>
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <!-- favorites -->
+                    <child>
+                      <object class="GtkBox">
+                        <property name="orientation">vertical</property>
+
+                        <child>
+                          <object class="GtkSeparator">
+                            <property name="orientation">vertical</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkLabel" id="favorites_button">
+                            <!--<property name="action-name">sidebar.add_fav</property> -->
+                            <property name="margin-start">14</property>  <!-- Left margin -->
+                            <property name="margin-end">6</property>    <!-- Right margin -->
+                            <property name="margin-top">12</property>
+                            <property name="hexpand">True</property>
+                            <property name="halign">start</property>
+                            <property name="label">Favorites</property>
+
+
+                            <style>
+                              <class name="title-4" />
+                              <class name="flat"/>
+                            </style>
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkListBox" id="fav_buttons">
+                        <property name="hexpand">True</property>
+                        <style>
+                          <class name="navigation-sidebar"/>
+                        </style>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkBox" id="label_and_separator_box">
+                        <property name="orientation">vertical</property>
+
+                        <child>
+                          <object class="GtkSeparator" id="separator1">
+                            <property name="orientation">vertical</property>
+                          </object>
+                        </child>
+
+                        <child>
+                          <object class="GtkButton" id="new_tab_button">
+                            <property name="action-name">win.add_tab</property>
+                            <property name="margin-start">6</property>  <!-- Left margin -->
+                            <property name="margin-end">6</property>    <!-- Right margin -->
+                            <property name="margin-top">6</property>
+                            <property name="hexpand">True</property>
+
+                            <style>
+                              <class name="flat"/>
+                            </style>
+                            <child>
+                              <object class="GtkBox">
+
+                                <child>
+                                  <object class="GtkImage">
+                                    <property name="margin-end">12</property>
+                                    <property name="icon-name">list-add-symbolic</property>
+                                  </object>
+                                </child>
+
+                                <child>
+                                  <object class="GtkLabel">
+                                    <property name="label">New Tab</property>
+                                  </object>
+                                </child>
+
+                              </object>
+                            </child>
+
+                          </object>
+                        </child>
+
+                      </object>
+                    </child>
+
+                    <child>
+                      <object class="GtkListBox" id="tab_buttons">
+                        <property name="hexpand">True</property>
+                        <property name="vexpand">True</property>
+                        <style>
+                          <class name="navigation-sidebar"/>
+                        </style>
+
+                      </object>
+                    </child>
+
+                  </object>
+                </child>
+              </object>
+            </child>
+
+          </object>
+        </property>
+      </object>
+    </property>
+  </template>
+</interface>
+

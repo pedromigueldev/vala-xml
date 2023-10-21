@@ -1,0 +1,15 @@
+.rounded_wv {
+  border-radius: 12px;
+}
+
+.hide {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.hide:hover {
+  opacity: 1;
+}
+
+.over_btn {
+  -gtk-scaled: 0.5;
+}
