@@ -9,7 +9,3 @@
 .hide:hover {
   opacity: 1;
 }
-
-.over_btn {
-  -gtk-scaled: 0.5;
-}

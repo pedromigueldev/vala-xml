@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="Adw" version="1.4"/>
+  <template class="ValaXmlDialog" parent="AdwMessageDialog">
+
+   <property name="heading" translatable="yes">Open New tab</property>
+    <property name="default-response">save</property>
+    <property name="close-response">cancel</property>
+
+    <property name="extra-child">
+      <object class="GtkBox">
+        <property name="orientation">vertical</property>
+
+        <child>
+          <object class="GtkLabel" id="error_message">
+            <property name="visible">false</property>
+            <property name="halign">start</property>
+            <property name="label">Not valid url</property>
+            <property name="margin-bottom">6</property>
+
+            <style>
+              <class name="error" />
+              <class name="heading" />
+            </style>
+
+          </object>
+        </child>
+
+        <child>
+          <object class="GtkEntry" id="url_entry">
+            <property name="placeholder_text">Serch for website</property>
+            <property name="hexpand">true</property>
+          </object>
+        </child>
+
+      </object>
+    </property>
+
+    <responses>
+      <response id="cancel" appearance="destructive" translatable="yes">Cancel</response>
+      <response id="search" appearance="suggested" translatable="yes" enabled="false">Search</response>
+    </responses>
+
+  </template>
+</interface>

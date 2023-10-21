@@ -19,7 +19,7 @@
  */
 
 namespace ValaXml {
-    [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/sidebar.ui")]
+    [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/gtk/sidebar.ui")]
     public class SideBar : Adw.NavigationPage {
 
         [GtkChild]

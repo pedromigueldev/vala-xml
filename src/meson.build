@@ -3,7 +3,9 @@ vala_xml_sources = [
   'application.vala',
   'window.vala',
   'sidebar.vala',
-  'Tab.vala'
+  'tab.vala',
+  'dialog.vala'
+
 ]
 
 vala_xml_deps = [

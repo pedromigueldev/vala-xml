@@ -22,7 +22,7 @@ using WebKit;
 using GLib;
 
 namespace ValaXml {
-    [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/window.ui")]
+    [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/gtk/window.ui")]
     public class Window : Adw.Window {
 
         [GtkChild]
@@ -58,63 +58,16 @@ namespace ValaXml {
         delegate void Search_page(string response, string url);
         private void open_dialog(Search_page search_page_function, bool label_visible = false){
 
-            var dialog = new Adw.MessageDialog (this, "Open New tab", "");
-            var entry = new Gtk.Entry();
-            var label = new Gtk.Label("Not valid url");
-            label.set_visible(label_visible);
-            label.set_halign(Gtk.Align.START);
-            label.add_css_class("error");
-            label.add_css_class("heading");
-            var box = new Gtk.Box(Gtk.Orientation.VERTICAL,10);
-            box.append(label);
-            box.append(entry);
-
-            dialog.body_use_markup = true;
-            dialog.add_response ("Cancel", "Cancel");
-            dialog.add_response ("Search", "Search");
-            dialog.set_response_appearance ("Search", Adw.ResponseAppearance.SUGGESTED);
-
-            entry.set_placeholder_text ("Serch for website");
-
-            dialog.set_extra_child (box);
-            dialog.show ();
+            var dialog = new ValaXml.Dialog(this);
 
             dialog.response.connect ((response) => {
-                var entry_text = entry.get_text();
-                string url ;
 
-
-                if ( entry_text.has_prefix("https://") || entry_text.has_prefix("http://")){
-                    url = this.verify_uri (entry_text);
-                } else if (entry_text.has_suffix(".com") || (bool)entry_text.contains(".com/")){
-                    url = this.verify_uri ("https://"+entry_text);
-                } else {
-                    url = this.verify_uri (entry_text);
-                }
-
-
-                print("\n" + url);
-
-                if (response == "Cancel") return;
-                if (url == "NVU") {
-                    this.on_click_add_call(true);
-                    return;
-                };
-
-                search_page_function(response, url);
+                if (response == "cancel") return;
+                print(dialog.url);
+                search_page_function(response, dialog.url);
             });
 
-        }
-
-        public string verify_uri (string uri) {
-            try {
-                var is_url = Uri.is_valid (uri, GLib.UriFlags.ENCODED);
-                if(!is_url) return "NVU";
-                return uri;
-            } catch (Error e) {
-                print("\n" + e.message);
-                return "NVU";
-            }
+            dialog.show ();
         }
 
         private void on_click_add () {

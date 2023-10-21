@@ -1,4 +1,4 @@
-/* sidebar.vala
+/* tab.vala
  *
  * Copyright 2023 Pedro Miguel
  *
@@ -19,7 +19,7 @@
  */
 
 namespace ValaXml {
-    [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/tab_button.ui")]
+    [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/gtk/tab_button.ui")]
     public class Tab : Gtk.ListBoxRow {
 
         [GtkChild]  private unowned Gtk.Image tab_image_icon;
