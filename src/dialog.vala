@@ -27,38 +27,36 @@ namespace ValaXml {
 
         public string url;
 
-        public string verify_uri (string uri) {
-            try {
-                var is_url = Uri.is_valid (uri, GLib.UriFlags.ENCODED);
-                if(!is_url) return "NVU";
-                return uri;
+        public bool IsValidURL(string URL)
+        {
+            string Pattern = "[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
+            Regex Rgx;
+            bool url;
+            try
+            {
+                Rgx = new Regex(Pattern);
+                url = Rgx.match (URL, 0);
+
             } catch (Error e) {
                 print("\n" + e.message);
-                return "NVU";
+                url = false;
             }
+            print(url ? "VALID: " + URL + "\n" : "NOT VALID: " + URL + "\n");
+            return url;
         }
 
         public Dialog (Window parent) {
             transient_for = parent;
 
             url_entry.notify["text"].connect ((e, p) => {
-                print(url_entry.text);
+                //print(url_entry.text);
 
                 var text = url_entry.text;
 
-                if ( text.has_prefix("https://") || text.has_prefix("http://")){
-                    url = this.verify_uri (text);
-                } else if (text.has_suffix(".com") || (bool)text.contains(".com/")){
-                    url = this.verify_uri ("https://"+text);
-                } else {
-                    url = this.verify_uri (text);
-                }
-
-                print(url + "\n");
-
-                if (url == "NVU") {
+                if ( !IsValidURL("https://" + text) ) {
                     this.error_message.set_visible (true);
-                    this.set_response_enabled ("search", false); return;
+                    this.set_response_enabled ("search", false);
+                    return;
                 }
                 this.set_response_enabled ("search", true);
                 this.error_message.set_visible (false);
