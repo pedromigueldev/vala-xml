@@ -25,6 +25,54 @@ namespace ValaXml {
         [GtkChild]  private unowned Gtk.Image tab_image_icon;
         [GtkChild]  private unowned Gtk.Label tab_label;
 
+        [GtkCallback] private void tab_clicked () { this.set_web_visible (); }
+        [GtkCallback] private void tab_focused () { this.set_web_visible (); }
+
+        //drag animation
+        [GtkCallback] private Gdk.ContentProvider on_drag_prepare() {
+            this.set_sensitive (false);
+            return new Gdk.ContentProvider.for_value (this);
+        }
+        [GtkCallback] private void on_drag_end () {
+            this.set_sensitive (true);
+        }
+        [GtkCallback] private void on_drag_begin (Gdk.Drag drag)   {
+            Gtk.DragIcon icon = (Gtk.DragIcon) Gtk.DragIcon.get_for_drag (drag);
+
+            //omg im so happy that i finally figured it out how to drag and drop this f** thing 😭️😭️😭️
+            var button_tab = new Gtk.Button() {
+                margin_start = 10,
+                margin_end = 10,
+                child = new Gtk.Label(this.tab_label.label) {
+                    halign = Gtk.Align.START,
+                    valign = Gtk.Align.FILL,
+                    ellipsize = Pango.EllipsizeMode.END
+                }
+            };
+
+            icon.set_child(button_tab);
+        }
+
+
+        [GtkCallback] private void close_tab () {
+            ValaXml.WebViewApp box = (ValaXml.WebViewApp) web_container.get_child_by_name (uuid);
+            Gtk.ListBoxRow tab = (Gtk.ListBoxRow) tab_container.get_focus_child ();
+
+            ValaXml.WebViewApp next_visible = (bool) box.get_next_sibling () ?
+                (ValaXml.WebViewApp) box.get_next_sibling () : (ValaXml.WebViewApp) box.get_prev_sibling ();
+
+            Gtk.ListBoxRow next_visible_tab = (bool) tab.get_next_sibling () ?
+                (Gtk.ListBoxRow) tab.get_next_sibling () : (Gtk.ListBoxRow) tab.get_prev_sibling ();
+
+            if (box.is_visible () && (bool) next_visible && (bool) next_visible_tab) {
+                web_container.set_visible_child (next_visible);
+                tab_container.set_focus_child (next_visible_tab);
+            }
+
+            web_container.remove (box);
+            tab_container.remove (this);
+        }
+
 
         private string _uuid;
         private Adw.ViewStack _web_container;
@@ -63,9 +111,6 @@ namespace ValaXml {
             }
         }
 
-        ~Tab() {
-        }
-
         public Tab (ValaXml.WebViewApp web_box, Adw.ViewStack web_container, Gtk.ListBox tab_container)
         {
             this.uuid = web_box.uuid;
@@ -93,29 +138,6 @@ namespace ValaXml {
 
         }
 
-        [GtkCallback] void tab_clicked () { this.set_web_visible (); }
-        [GtkCallback] void tab_focused () { this.set_web_visible (); }
-
-        [GtkCallback] private void close_tab ()
-        {
-            ValaXml.WebViewApp box = (ValaXml.WebViewApp) web_container.get_child_by_name (uuid);
-            Gtk.ListBoxRow tab = (Gtk.ListBoxRow) tab_container.get_focus_child ();
-
-            ValaXml.WebViewApp next_visible = (bool) box.get_next_sibling () ?
-                (ValaXml.WebViewApp) box.get_next_sibling () : (ValaXml.WebViewApp) box.get_prev_sibling ();
-
-            Gtk.ListBoxRow next_visible_tab = (bool) tab.get_next_sibling () ?
-                (Gtk.ListBoxRow) tab.get_next_sibling () : (Gtk.ListBoxRow) tab.get_prev_sibling ();
-
-            if (box.is_visible () && (bool) next_visible && (bool) next_visible_tab) {
-                web_container.set_visible_child (next_visible);
-                tab_container.set_focus_child (next_visible_tab);
-            }
-
-            web_container.remove (box);
-            tab_container.remove (this);
-        }
-
         private void set_web_visible ()
         {
              web_container.set_visible_child_name(this.uuid);
@@ -123,3 +145,4 @@ namespace ValaXml {
 
     }
 }
+

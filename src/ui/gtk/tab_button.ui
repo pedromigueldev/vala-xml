@@ -11,6 +11,15 @@
     </child>
 
     <child>
+      <object class="GtkDragSource" id="drag_gesture">
+        <property name="actions">move</property>
+        <signal name="prepare" handler="on_drag_prepare" />
+        <signal name="drag-begin" handler="on_drag_begin" />
+         <signal name="drag-end" handler="on_drag_end" />
+      </object>
+    </child>
+
+    <child>
       <object class="GtkEventControllerFocus">
         <signal name="enter" handler="tab_focused" swapped="no"/>
       </object>
