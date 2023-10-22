@@ -25,7 +25,6 @@ namespace ValaXml {
         }
 
         construct {
-
             ActionEntry[] action_entries = {
                 { "about", this.on_about_action },
                 { "preferences", this.on_preferences_action },

@@ -10,6 +10,12 @@
       </object>
     </child>
 
+    <child>
+      <object class="GtkEventControllerFocus">
+        <signal name="enter" handler="tab_focused" swapped="no"/>
+      </object>
+    </child>
+
     <property name="child">
       <object class="GtkBox">
         <property name="orientation">horizontal</property>

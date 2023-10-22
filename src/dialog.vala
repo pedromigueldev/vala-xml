@@ -31,29 +31,33 @@ namespace ValaXml {
         {
             string Pattern = "[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
             Regex Rgx;
-            bool url;
-            try
-            {
+            bool is_valid;
+
+            try {
                 Rgx = new Regex(Pattern);
-                url = Rgx.match (URL, 0);
+                is_valid = Rgx.match (URL, 0);
 
             } catch (Error e) {
                 print("\n" + e.message);
-                url = false;
+                is_valid = false;
             }
-            print(url ? "VALID: " + URL + "\n" : "NOT VALID: " + URL + "\n");
-            return url;
+
+            print(is_valid ? "VALID: " + URL + "\n" : "NOT VALID: " + URL + "\n");
+            return is_valid;
         }
 
         public Dialog (Window parent) {
             transient_for = parent;
 
             url_entry.notify["text"].connect ((e, p) => {
-                //print(url_entry.text);
 
-                var text = url_entry.text;
+                if (  url_entry.text.has_prefix("https://") ||  url_entry.text.has_prefix("http://")){
+                    url =  url_entry.text;
+                } else {
+                     url = "https://" +  url_entry.text;
+                }
 
-                if ( !IsValidURL("https://" + text) ) {
+                if ( !IsValidURL(url) ) {
                     this.error_message.set_visible (true);
                     this.set_response_enabled ("search", false);
                     return;

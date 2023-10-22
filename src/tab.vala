@@ -93,10 +93,8 @@ namespace ValaXml {
 
         }
 
-        [GtkCallback] private void tab_clicked(Gtk.GestureClick gesture, int number, double x, double y)
-        {
-             web_container.set_visible_child_name(this.uuid);
-        }
+        [GtkCallback] void tab_clicked () { this.set_web_visible (); }
+        [GtkCallback] void tab_focused () { this.set_web_visible (); }
 
         [GtkCallback] private void close_tab ()
         {
@@ -116,6 +114,11 @@ namespace ValaXml {
 
             web_container.remove (box);
             tab_container.remove (this);
+        }
+
+        private void set_web_visible ()
+        {
+             web_container.set_visible_child_name(this.uuid);
         }
 
     }
