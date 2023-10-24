@@ -43,7 +43,7 @@ namespace ValaXml {
             WebViewApp web_box = new WebViewApp();
             web_box.web_view.load_uri(uri);
 
-            Gtk.ListBoxRow tab = new ValaXml.Tab (web_box, web_container, tab_buttons);
+            ValaXml.Tab tab = new ValaXml.Tab (web_box, web_container, tab_buttons);
 
             this.tab_buttons.append (tab);
             return web_box;

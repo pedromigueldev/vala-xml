@@ -3,9 +3,19 @@
 }
 
 .hide {
+	transform: scale(0.8);
   opacity: 0;
   transition: opacity 0.3s;
 }
 .hide:hover {
   opacity: 1;
+}
+
+.task-drop-area {
+  padding: 5px;
+  margin: 5px 12px 4px 12px;
+  border-radius: 10px;
+  border-width: 3px;
+  border-style: dotted;
+  border-color: @light_4;
 }

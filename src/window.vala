@@ -56,7 +56,7 @@ namespace ValaXml {
         }
 
         delegate void Search_page(string response, string url);
-        private void open_dialog(Search_page search_page_function, bool label_visible = false){
+        private void open_dialog(Search_page search_page_function){
 
             var dialog = new ValaXml.Dialog(this);
 
@@ -75,11 +75,9 @@ namespace ValaXml {
         }
         private void on_click_add_call(bool label = false){
             open_dialog((response, url) => {
-                if ( response == "Cancel") return;
-
                 var web_view = ValaXmlSideBar.add_web_view(url, status_page);
                 this.status_page.add_named (web_view, web_view.uuid);
-            }, label);
+            });
         }
     }
 
@@ -99,10 +97,10 @@ namespace ValaXml {
         public WebViewApp() {
             vexpand = true;
             hexpand = true;
-            margin_top = 10;
-            margin_end = 10;
-            margin_bottom = 10;
-            margin_start = 10;
+            //margin_top = 13;
+            //margin_end = 12;
+            //margin_bottom = 12;
+            //margin_start = 12;
 
             content_view.set_child(web_view);
             this.append(content_view);

@@ -30,6 +30,7 @@ namespace ValaXml {
 
         //drag animation
         [GtkCallback] private Gdk.ContentProvider on_drag_prepare() {
+            tab_container.select_row (this);
             this.set_sensitive (false);
             return new Gdk.ContentProvider.for_value (this);
         }
@@ -51,6 +52,16 @@ namespace ValaXml {
             };
 
             icon.set_child(button_tab);
+        }
+
+       [GtkCallback] public bool on_task_top_drop(Gtk.DropTarget target, GLib.Value data, double x, double y) {
+            var tab = (ValaXml.Tab) data;
+
+            if (tab.parent == this.parent) {
+                tab_container.remove (tab);
+                tab_container.insert (tab, this.get_index ());
+            }
+            return false;
         }
 
 
@@ -135,12 +146,15 @@ namespace ValaXml {
                         break;
                 };
             });
-
         }
 
         private void set_web_visible ()
         {
              web_container.set_visible_child_name(this.uuid);
+        }
+
+        public void focus_me() {
+            this.tab_container.set_focus_child (this);
         }
 
     }

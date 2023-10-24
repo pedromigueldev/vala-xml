@@ -25,44 +25,85 @@
       </object>
     </child>
 
+    <child>
+      <object class="GtkDropControllerMotion" id="drop_ctrl" />
+    </child>
+
     <property name="child">
       <object class="GtkBox">
-        <property name="orientation">horizontal</property>
+        <property name="orientation">vertical</property>
         <property name="hexpand">true</property>
 
+        <!-- Drop area for moving tasks -->
         <child>
-          <object class="GtkBox">
-              <property name="orientation">horizontal</property>
-              <property name="hexpand">true</property>
-              <property name="spacing">6</property>
+          <object class="GtkRevealer">
+            <property name="reveal-child" bind-source="drop_ctrl" bind-property="contains-pointer" bind-flags="sync-create" />
+            <property name="transition-type">5</property>
 
-              <child>
-                <object class="GtkImage" id="tab_image_icon"></object>
-              </child>
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">go-up-symbolic</property>
+                <property name="hexpand">true</property>
+                <style>
+                  <class name="task-drop-area" />
+                </style>
 
-              <child>
-                <object class="GtkLabel" id="tab_label">
-                  <property name="halign">start</property>
-                  <property name="valign">fill</property>
-                  <property name="ellipsize">end</property>
+                <!-- Drop target -->
+                <child>
+                  <object class="GtkDropTarget">
+                    <property name="actions">move</property>
+                    <property name="formats">ValaXmlTab</property>
+                    <signal name="drop" handler="on_task_top_drop" />
+                  </object>
+                </child>
 
-                </object>
-              </child>
-
+              </object>
+            </child>
           </object>
         </child>
 
         <child>
-          <object class="GtkButton" id="close_button">
-            <signal name="clicked" handler="close_tab" swapped="no"/>
-            <style>
-              <class name="flat" />
-              <class name="circular" />
-            </style>
+          <object class="GtkBox">
+            <property name="orientation">horizontal</property>
+            <property name="hexpand">true</property>
+            <property name="spacing">6</property>
 
             <child>
-              <object class="GtkImage">
-                <property name="icon_name">window-close-symbolic</property>
+              <object class="GtkBox">
+                  <property name="orientation">horizontal</property>
+                  <property name="hexpand">true</property>
+                  <property name="spacing">6</property>
+
+                  <child>
+                    <object class="GtkImage" id="tab_image_icon"></object>
+                  </child>
+
+                  <child>
+                    <object class="GtkLabel" id="tab_label">
+                      <property name="halign">start</property>
+                      <property name="valign">fill</property>
+                      <property name="ellipsize">end</property>
+
+                    </object>
+                  </child>
+
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkButton" id="close_button">
+                <signal name="clicked" handler="close_tab" swapped="no"/>
+                <style>
+                  <class name="flat" />
+                  <class name="circular" />
+                </style>
+
+                <child>
+                  <object class="GtkImage">
+                    <property name="icon_name">window-close-symbolic</property>
+                  </object>
+                </child>
+
               </object>
             </child>
 
