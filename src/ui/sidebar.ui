@@ -19,10 +19,11 @@
             <property name="show-title">False</property>
 
             <child type="start">
-              <object class="GtkButton">
+              <object class="GtkButton" id="refresh_button">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
+                <property name="action-name">win.refresh</property>
 
                 <style>
                   <class name="flat"/>
@@ -35,6 +36,7 @@
                 </child>
               </object>
             </child>
+
             <child type="start">
               <object class="GtkToggleButton" id="show_sidebar_button">
                 <property name="icon-name">sidebar-show-symbolic</property>
@@ -46,14 +48,15 @@
               <object class="GtkBox">
 
                   <child>
-                    <object class="GtkBox" id="page-nav">
+                    <object class="GtkBox" id="page_nav">
                       <property name="spacing">2</property>
 
                       <child>
-                        <object class="GtkButton">
+                        <object class="GtkButton" id="page_nav_back">
                           <property name="visible">True</property>
                           <property name="can_focus">True</property>
                           <property name="receives_default">True</property>
+                          <property name="action-name">win.page_back</property>
 
                           <style>
                             <class name="flat"/>
@@ -69,10 +72,11 @@
                       </child>
 
                       <child>
-                        <object class="GtkButton">
+                        <object class="GtkButton" id="page_nav_forward">
                           <property name="visible">True</property>
                           <property name="can_focus">True</property>
                           <property name="receives_default">True</property>
+                          <property name="action-name">win.page_forward</property>
 
                           <style>
                             <class name="flat"/>
@@ -160,31 +164,12 @@
                           <object class="GtkBox" id="favorites">
                           </object>
                         </child>
+
                         <child>
-                          <object class="GtkBox">
-                            <style>
-                                <class name="linked"/>
-                            </style>
-                            <child>
-                              <object class="GtkEntry">
-                                <property name="hexpand">True</property>
-                                <property name="placeholder-text">Pesquise</property>
-                              </object>
-                            </child>
-                            <child>
-                              <object class="GtkButton">
-                                <property name="visible">True</property>
-                                <property name="can_focus">True</property>
-                                <property name="receives_default">True</property>
-                                <child>
-                                  <object class="GtkImage">
-                                    <property name="icon-name">edit-find</property>
-                                  </object>
-                                </child>
-                              </object>
-                            </child>
+                          <object class="ValaXmlSearch" id="search_bar">
                           </object>
                         </child>
+
                       </object>
                     </child>
 
@@ -342,7 +327,7 @@
                     </child>
 
                     <child>
-                      <object class="GtkListBox" id="tab_buttons">
+                      <object class="GtkListBox" id="tab_container">
                         <property name="hexpand">True</property>
                         <property name="vexpand">True</property>
                         <style>

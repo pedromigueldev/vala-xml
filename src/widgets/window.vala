@@ -22,7 +22,7 @@ using WebKit;
 using GLib;
 
 namespace ValaXml {
-    [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/gtk/window.ui")]
+    [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/window.ui")]
     public class Window : Adw.Window {
 
         [GtkChild]
@@ -39,6 +39,9 @@ namespace ValaXml {
         construct {
             ActionEntry[] ACTION_ENTRIES = {
                     { "add_tab", this.on_click_add },
+                    { "refresh", this.refresh_page },
+                    { "page_back", this.back_action },
+                    { "page_forward", this.forward_action }
             };
             actions = new SimpleActionGroup ();
             actions.add_action_entries (ACTION_ENTRIES, this);
@@ -54,36 +57,31 @@ namespace ValaXml {
             });
 
         }
-
-        delegate void Search_page(string response, string url);
-        private void open_dialog(Search_page search_page_function){
-
-            var dialog = new ValaXml.Dialog(this);
-
-            dialog.response.connect ((response) => {
-
-                if (response == "cancel") return;
-                print(dialog.url);
-                search_page_function(response, dialog.url);
-            });
-
-            dialog.show ();
-        }
-
         private void on_click_add () {
-            on_click_add_call();
+            ValaXml.Dialog dialog = new ValaXml.Dialog (this);
+            dialog.open_dialog((url) => ValaXmlSideBar.add_web_view(url, this.status_page));
         }
-        private void on_click_add_call(bool label = false){
-            open_dialog((response, url) => {
-                var web_view = ValaXmlSideBar.add_web_view(url, status_page);
-                this.status_page.add_named (web_view, web_view.uuid);
-            });
+        private void refresh_page () {
+            WebViewApp.refresh ();
+        }
+        private void back_action () {
+            WebViewApp.go_back ();
+        }
+        private void forward_action () {
+            WebViewApp.go_forward ();
         }
     }
 
 
 
     public class WebViewApp : Gtk.Box {
+        private static WebKit.WebView _focused_webview;
+        public static WebKit.WebView focused_webview {
+            set {
+                _focused_webview = value;
+            }
+        }
+
         public string uuid = GLib.Uuid.string_random();
 
         public WebKit.WebView web_view = new WebKit.WebView();
@@ -97,13 +95,28 @@ namespace ValaXml {
         public WebViewApp() {
             vexpand = true;
             hexpand = true;
-            //margin_top = 13;
-            //margin_end = 12;
-            //margin_bottom = 12;
-            //margin_start = 12;
 
             content_view.set_child(web_view);
             this.append(content_view);
+
+            WebViewApp.focused_webview = this.web_view;
+        }
+
+        public static void refresh () {
+            WebViewApp._focused_webview.reload ();
+        }
+        public static bool go_back () {
+            if( !WebViewApp._focused_webview.can_go_back () ) return false;
+            WebViewApp._focused_webview.go_back ();
+            return true;
+        }
+        public static bool go_forward () {
+            if( !WebViewApp._focused_webview.can_go_forward ()) return false;
+            WebViewApp._focused_webview.go_forward ();
+            return true;
+        }
+        public static string uri () {
+            return WebViewApp._focused_webview.uri;
         }
     }
 }

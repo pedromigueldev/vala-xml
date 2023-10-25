@@ -19,7 +19,7 @@
  */
 
 namespace ValaXml {
-    [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/gtk/tab_button.ui")]
+    [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/tab_button.ui")]
     public class Tab : Gtk.ListBoxRow {
 
         [GtkChild]  private unowned Gtk.Image tab_image_icon;
@@ -28,7 +28,6 @@ namespace ValaXml {
         [GtkCallback] private void tab_clicked () { this.set_web_visible (); }
         [GtkCallback] private void tab_focused () { this.set_web_visible (); }
 
-        //drag animation
         [GtkCallback] private Gdk.ContentProvider on_drag_prepare() {
             tab_container.select_row (this);
             this.set_sensitive (false);
@@ -82,6 +81,7 @@ namespace ValaXml {
 
             web_container.remove (box);
             tab_container.remove (this);
+            sidebar.search_bar.entry.set_text ("");
         }
 
 
@@ -89,6 +89,7 @@ namespace ValaXml {
         private Adw.ViewStack _web_container;
         private WebViewApp _web_box;
         private Gtk.ListBox _tab_container;
+        private ValaXml.SideBar _sidebar;
 
         public string uuid
         {
@@ -122,12 +123,21 @@ namespace ValaXml {
             }
         }
 
-        public Tab (ValaXml.WebViewApp web_box, Adw.ViewStack web_container, Gtk.ListBox tab_container)
+        public ValaXml.SideBar sidebar
+        {
+            get { return _sidebar; }
+            set {
+                _sidebar = value;
+            }
+        }
+
+        public Tab (SideBar sidebar, ValaXml.WebViewApp web_box, Adw.ViewStack web_container, Gtk.ListBox tab_container)
         {
             this.uuid = web_box.uuid;
             this.web_box = web_box;
             this.web_container = web_container;
             this.tab_container = tab_container;
+            this.sidebar = sidebar;
 
             web_box.web_view.load_changed.connect(e => {
                 switch (e) {
@@ -141,20 +151,24 @@ namespace ValaXml {
                     case WebKit.LoadEvent.FINISHED:
                         tab_image_icon.icon_name = "selection-mode-symbolic";
                         tab_label.set_label(web_box.web_view.title);
+
                         break;
                     default:
                         break;
                 };
             });
+
         }
 
-        private void set_web_visible ()
+        public void set_web_visible ()
         {
-             web_container.set_visible_child_name(this.uuid);
-        }
 
-        public void focus_me() {
-            this.tab_container.set_focus_child (this);
+
+            sidebar.search_bar.active_url = this.web_box.web_view.uri;
+
+            ValaXml.WebViewApp.focused_webview = this.web_box.web_view;
+            web_container.set_visible_child_name(this.uuid);
+
         }
 
     }

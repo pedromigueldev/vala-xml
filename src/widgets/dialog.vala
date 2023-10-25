@@ -19,13 +19,25 @@
  */
 
 namespace ValaXml {
-    [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/gtk/dialog.ui")]
+    [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/dialog.ui")]
     public class Dialog : Adw.MessageDialog {
 
         [GtkChild]  public unowned Gtk.Entry url_entry;
         [GtkChild]  public unowned Gtk.Label error_message;
 
         public string url;
+
+        protected delegate void Search_page(string url);
+        public void open_dialog(Search_page search_page_function){
+            this.response.connect ((response) => {
+
+                if (response == "cancel") return;
+                print(this.url);
+                search_page_function(this.url);
+            });
+
+            this.show ();
+        }
 
         public bool IsValidURL(string URL)
         {

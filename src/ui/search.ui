@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<interface>
+  <requires lib="gtk" version="4.0"/>
+  <requires lib="Adw" version="1.4"/>
+  <template class="ValaXmlSearch" parent="GtkBox">
+    <style>
+          <class name="linked"/>
+      </style>
+
+      <child>
+        <object class="GtkEntry" id="entry">
+          <property name="hexpand">True</property>
+          <property name="placeholder-text">Pesquise</property>
+
+          <property name="text"
+            bind-source="ValaXmlSearch"
+            bind-property="active_url"
+            bind-flags="sync-create|bidirectional"/>
+
+        </object>
+      </child>
+
+      <child>
+        <object class="GtkButton" id="search_entry_button">
+          <property name="visible">True</property>
+          <property name="can_focus">True</property>
+          <property name="receives_default">True</property>
+          <signal name="clicked" handler="go_search" swapped="no"/>
+
+          <child>
+            <object class="GtkImage">
+              <property name="icon-name">edit-find</property>
+            </object>
+          </child>
+
+        </object>
+      </child>
+  </template>
+</interface>

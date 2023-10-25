@@ -19,14 +19,12 @@
  */
 
 namespace ValaXml {
-    [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/gtk/sidebar.ui")]
+    [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/sidebar.ui")]
     public class SideBar : Adw.NavigationPage {
 
-        [GtkChild]
-        private unowned Gtk.ListBox tab_buttons;
-        [GtkChild]
-        public unowned Gtk.ToggleButton show_sidebar_button;
-
+        [GtkChild] private unowned Gtk.ListBox tab_container;
+        [GtkChild] public unowned Gtk.ToggleButton show_sidebar_button;
+        [GtkChild] public unowned ValaXml.Search search_bar;
 
         private bool _sidebar_active;
         public bool sidebar_active {
@@ -39,15 +37,19 @@ namespace ValaXml {
         public SideBar () {
         }
 
-        public WebViewApp add_web_view(string uri, Adw.ViewStack web_container ) {
-            WebViewApp web_box = new WebViewApp();
+        public void add_web_view(string uri, Adw.ViewStack web_container ) {
+            ValaXml.WebViewApp web_box = new ValaXml.WebViewApp();
+            ValaXml.Tab tab = new ValaXml.Tab (this, web_box, web_container, tab_container);
+
+            web_container.add_named (web_box, web_box.uuid);
+            tab_container.append (tab);
+
             web_box.web_view.load_uri(uri);
+            tab.set_web_visible();
 
-            ValaXml.Tab tab = new ValaXml.Tab (web_box, web_container, tab_buttons);
-
-            this.tab_buttons.append (tab);
-            return web_box;
+            tab_container.get_last_child().focus(Gtk.DirectionType.TAB_FORWARD);
         }
 
     }
 }
+

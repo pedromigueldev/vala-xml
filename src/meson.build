@@ -1,12 +1,19 @@
-vala_xml_sources = [
-  'main.vala',
-  'application.vala',
-  'window.vala',
-  'sidebar.vala',
-  'tab.vala',
-  'dialog.vala'
+vala_xml_files = [
+	'window.vala',
+	'sidebar.vala',
+	'tab.vala',
+	'dialog.vala',
+	'Search.vala'
 
 ]
+
+vala_xml_sources = [
+	'main.vala',
+  	'application.vala'
+]
+foreach source: vala_xml_files
+	vala_xml_sources += ['widgets/' + source]
+endforeach
 
 vala_xml_deps = [
   dependency('gtk4'),
