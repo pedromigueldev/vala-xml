@@ -163,9 +163,7 @@ namespace ValaXml {
         public void set_web_visible ()
         {
 
-
-            sidebar.search_bar.active_url = this.web_box.web_view.uri;
-
+            this.sidebar.search_bar.active_url = this.web_box.web_view.uri;
             ValaXml.WebViewApp.focused_webview = this.web_box.web_view;
             web_container.set_visible_child_name(this.uuid);
 

@@ -39,6 +39,7 @@ namespace ValaXml {
         construct {
             ActionEntry[] ACTION_ENTRIES = {
                     { "add_tab", this.on_click_add },
+                    { "search_box", this.on_serach_add },
                     { "refresh", this.refresh_page },
                     { "page_back", this.back_action },
                     { "page_forward", this.forward_action }
@@ -61,6 +62,13 @@ namespace ValaXml {
             ValaXml.Dialog dialog = new ValaXml.Dialog (this);
             dialog.open_dialog((url) => ValaXmlSideBar.add_web_view(url, this.status_page));
         }
+        private void on_serach_add () {
+            if(!(bool) ValaXml.WebViewApp.focused_webview) {
+                var url = ValaXmlSideBar.search_bar.active_url;
+                ValaXmlSideBar.add_web_view (url, this.status_page);
+            }
+            ValaXmlSideBar.search_bar.go_search ();
+        }
         private void refresh_page () {
             WebViewApp.refresh ();
         }
@@ -77,6 +85,7 @@ namespace ValaXml {
     public class WebViewApp : Gtk.Box {
         private static WebKit.WebView _focused_webview;
         public static WebKit.WebView focused_webview {
+            get { return _focused_webview;}
             set {
                 _focused_webview = value;
             }

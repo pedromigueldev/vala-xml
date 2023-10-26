@@ -25,7 +25,7 @@
           <property name="visible">True</property>
           <property name="can_focus">True</property>
           <property name="receives_default">True</property>
-          <signal name="clicked" handler="go_search" swapped="no"/>
+          <property name="action-name">win.search_box</property>
 
           <child>
             <object class="GtkImage">

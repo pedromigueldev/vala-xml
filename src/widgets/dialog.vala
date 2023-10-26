@@ -39,24 +39,7 @@ namespace ValaXml {
             this.show ();
         }
 
-        public bool IsValidURL(string URL)
-        {
-            string Pattern = "[(http(s)?):\\/\\/(www\\.)?a-zA-Z0-9@:%._\\+~#=]{2,256}\\.[a-z]{2,6}\\b([-a-zA-Z0-9@:%_\\+.~#?&//=]*)";
-            Regex Rgx;
-            bool is_valid;
 
-            try {
-                Rgx = new Regex(Pattern);
-                is_valid = Rgx.match (URL, 0);
-
-            } catch (Error e) {
-                print("\n" + e.message);
-                is_valid = false;
-            }
-
-            print(is_valid ? "VALID: " + URL + "\n" : "NOT VALID: " + URL + "\n");
-            return is_valid;
-        }
 
         public Dialog (Window parent) {
             transient_for = parent;
@@ -69,7 +52,7 @@ namespace ValaXml {
                      url = "https://" +  url_entry.text;
                 }
 
-                if ( !IsValidURL(url) ) {
+                if ( !ValaXml.Utils.verify_url(url) ) {
                     this.error_message.set_visible (true);
                     this.set_response_enabled ("search", false);
                     return;

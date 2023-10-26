@@ -33,15 +33,36 @@ namespace ValaXml {
 
         [GtkChild] public unowned Gtk.Entry entry;
 
-        [GtkCallback] public void go_search () {
-            //get the text
-            // verify url
-            // get current webview
-            // load new content
+        public void go_search () {
+            this.entry.remove_css_class ("error");
+            WebKit.WebView current_web_view;
+
+            current_web_view  = ValaXml.WebViewApp.focused_webview;
+
+            if ( !(this.active_url.has_prefix("https://") || this.active_url.has_prefix("http://")) ){
+                 this.active_url = "https://" +  this.active_url;
+            }
+
+            if (!ValaXml.Utils.verify_url (this.active_url)) {
+                this.entry.set_css_classes ({"error"});
+                return;
+            };
+
+            current_web_view.load_uri (this.active_url);
         }
 
         public Search () {
+        }
 
+        construct {
+            entry.notify["text"].connect ((e, p) => {
+                print("This");
+                if (!ValaXml.Utils.verify_url (entry.text) && entry.text != "" ) {
+                    this.entry.set_css_classes ({"error"});
+                    return;
+                };
+                this.entry.remove_css_class ("error");
+            });
         }
 
     }

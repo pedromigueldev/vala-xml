@@ -4,12 +4,11 @@ vala_xml_files = [
 	'tab.vala',
 	'dialog.vala',
 	'Search.vala'
-
 ]
-
 vala_xml_sources = [
 	'main.vala',
-  	'application.vala'
+  	'application.vala',
+  	'utils.vala'
 ]
 foreach source: vala_xml_files
 	vala_xml_sources += ['widgets/' + source]
