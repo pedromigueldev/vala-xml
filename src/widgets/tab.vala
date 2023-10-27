@@ -140,6 +140,7 @@ namespace ValaXml {
             this.sidebar = sidebar;
 
             web_box.web_view.load_changed.connect(e => {
+                this.sidebar.search_bar.active_url = this.web_box.web_view.uri;
                 switch (e) {
                     case WebKit.LoadEvent.STARTED:
 
@@ -162,8 +163,6 @@ namespace ValaXml {
 
         public void set_web_visible ()
         {
-
-            this.sidebar.search_bar.active_url = this.web_box.web_view.uri;
             ValaXml.WebViewApp.focused_webview = this.web_box.web_view;
             web_container.set_visible_child_name(this.uuid);
 
