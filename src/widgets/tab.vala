@@ -141,9 +141,9 @@ namespace ValaXml {
 
             web_box.web_view.load_changed.connect(e => {
                 this.sidebar.search_bar.active_url = this.web_box.web_view.uri;
+
                 switch (e) {
                     case WebKit.LoadEvent.STARTED:
-
                         break;
                     case WebKit.LoadEvent.COMMITTED:
                         tab_image_icon.icon_name = "process-working-symbolic";

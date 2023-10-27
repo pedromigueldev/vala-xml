@@ -34,11 +34,19 @@
         <property name="orientation">vertical</property>
         <property name="hexpand">true</property>
 
-        <!-- Drop area for moving tasks -->
+        <!-- Drop area for moving tabs -->
         <child>
           <object class="GtkRevealer">
             <property name="reveal-child" bind-source="drop_ctrl" bind-property="contains-pointer" bind-flags="sync-create" />
             <property name="transition-type">5</property>
+
+            <child>
+              <object class="GtkDropTarget">
+                <property name="actions">move</property>
+                <property name="formats">ValaXmlTab</property>
+                <signal name="drop" handler="on_task_top_drop" />
+              </object>
+            </child>
 
             <child>
               <object class="GtkImage">
@@ -47,18 +55,9 @@
                 <style>
                   <class name="task-drop-area" />
                 </style>
-
-                <!-- Drop target -->
-                <child>
-                  <object class="GtkDropTarget">
-                    <property name="actions">move</property>
-                    <property name="formats">ValaXmlTab</property>
-                    <signal name="drop" handler="on_task_top_drop" />
-                  </object>
-                </child>
-
               </object>
             </child>
+
           </object>
         </child>
 
@@ -114,3 +113,4 @@
     </property>
   </template>
 </interface>
+
