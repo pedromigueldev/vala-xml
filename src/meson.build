@@ -1,4 +1,6 @@
 vala_xml_files = [
+	'main.vala',
+  	'application.vala',
 	'window.vala',
 	'sidebar.vala',
 	'tab.vala',
@@ -6,8 +8,6 @@ vala_xml_files = [
 	'Search.vala'
 ]
 vala_xml_sources = [
-	'main.vala',
-  	'application.vala',
   	'utils.vala'
 ]
 foreach source: vala_xml_files

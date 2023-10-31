@@ -11,11 +11,23 @@
   opacity: 1;
 }
 
-.task-drop-area {
+.icon_scale_down {
+  transform: scale(0.8);
+}
+.control_label {
+  color: @gray;
+}
+
+.tab-drop-area {
   padding: 5px;
   margin: 5px 12px 4px 12px;
   border-radius: 10px;
   border-width: 3px;
   border-style: dotted;
   border-color: @light_4;
+}
+
+.navigation-sidebar
+.activatable {
+  padding:0;
 }

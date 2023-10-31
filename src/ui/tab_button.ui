@@ -5,13 +5,7 @@
   <template class="ValaXmlTab" parent="GtkListBoxRow">
 
     <child>
-      <object class="GtkGestureClick">
-        <signal name="pressed" handler="tab_clicked" swapped="no"/>
-      </object>
-    </child>
-
-    <child>
-      <object class="GtkDragSource" id="drag_gesture">
+      <object class="GtkDragSource" id="drag_source">
         <property name="actions">move</property>
         <signal name="prepare" handler="on_drag_prepare" />
         <signal name="drag-begin" handler="on_drag_begin" />
@@ -36,7 +30,7 @@
 
         <!-- Drop area for moving tabs -->
         <child>
-          <object class="GtkRevealer">
+          <object class="GtkRevealer" id="up_revealer">
             <property name="reveal-child" bind-source="drop_ctrl" bind-property="contains-pointer" bind-flags="sync-create" />
             <property name="transition-type">5</property>
 
@@ -44,7 +38,7 @@
               <object class="GtkDropTarget">
                 <property name="actions">move</property>
                 <property name="formats">ValaXmlTab</property>
-                <signal name="drop" handler="on_task_top_drop" />
+                <signal name="drop" handler="on_tab_top_drop" />
               </object>
             </child>
 
@@ -53,7 +47,7 @@
                 <property name="icon-name">go-up-symbolic</property>
                 <property name="hexpand">true</property>
                 <style>
-                  <class name="task-drop-area" />
+                  <class name="tab-drop-area" />
                 </style>
               </object>
             </child>
@@ -65,26 +59,44 @@
           <object class="GtkBox">
             <property name="orientation">horizontal</property>
             <property name="hexpand">true</property>
-            <property name="spacing">6</property>
+
+            <style>
+                  <class name="linked"/>
+            </style>
 
             <child>
-              <object class="GtkBox">
-                  <property name="orientation">horizontal</property>
-                  <property name="hexpand">true</property>
-                  <property name="spacing">6</property>
+              <object class="GtkButton" id="tab_button">
+                <signal name="clicked" handler="tab_clicked" swapped="no"/>
+                <style>
+                  <class name="flat"/>
+                </style>
 
-                  <child>
-                    <object class="GtkImage" id="tab_image_icon"></object>
-                  </child>
+                <child>
+                  <object class="GtkBox">
+                    <property name="orientation">horizontal</property>
+                    <property name="hexpand">true</property>
+                    <property name="vexpand">true</property>
+                    <property name="spacing">6</property>
 
-                  <child>
-                    <object class="GtkLabel" id="tab_label">
-                      <property name="halign">start</property>
-                      <property name="valign">fill</property>
-                      <property name="ellipsize">end</property>
+                    <child>
+                      <object class="GtkImage" id="tab_image_icon">
+                      </object>
+                    </child>
 
-                    </object>
-                  </child>
+                    <child>
+                      <object class="GtkLabel" id="tab_label">
+                        <property name="halign">start</property>
+                        <property name="valign">fill</property>
+                        <property name="ellipsize">end</property>
+
+                        <style>
+                          <class name="body"/>
+                        </style>
+
+                      </object>
+                    </child>
+                  </object>
+                </child>
 
               </object>
             </child>
@@ -94,7 +106,6 @@
                 <signal name="clicked" handler="close_tab" swapped="no"/>
                 <style>
                   <class name="flat" />
-                  <class name="circular" />
                 </style>
 
                 <child>
@@ -109,8 +120,36 @@
           </object>
         </child>
 
+        <!-- Drop area for moving tabs -->
+        <child>
+          <object class="GtkRevealer" id="down_revealer">
+            <property name="reveal-child" bind-source="drop_ctrl" bind-property="contains-pointer" bind-flags="sync-create" />
+            <property name="transition-type">5</property>
+
+            <child>
+              <object class="GtkDropTarget">
+                <property name="actions">move</property>
+                <property name="formats">ValaXmlTab</property>
+                <signal name="drop" handler="on_tab_down_drop" />
+              </object>
+            </child>
+
+            <child>
+              <object class="GtkImage">
+                <property name="icon-name">go-down-symbolic</property>
+                <property name="hexpand">true</property>
+                <style>
+                  <class name="tab-drop-area" />
+                </style>
+              </object>
+            </child>
+
+          </object>
+        </child>
+
       </object>
     </property>
   </template>
 </interface>
+
 

@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist gettext-domain="vala-xml">
-	<schema id="valaxlm.pedromigueldev.github" path="/valaxlm/pedromigueldev/github/">
+	<schema id="valaxlm.pedromigueldev.github"  path="/valaxlm/pedromigueldev/github/">
+	  <key name="window-width" type="i">
+	    <default>800</default>
+	    <summary>Window width</summary>
+      <description>Window width</description>
+	  </key>
+	  <key name="window-height" type="i">
+	    <default>580</default>
+	    <summary>Window height</summary>
+      <description>Window height</description>
+	  </key>
+	  <key name="favorites" type="as">
+      <default>['oogle!::https://google.com', 'apple!::https://apple.com']</default>
+	    <summary>Array of links</summary>
+      <description>Array of links</description>
+	  </key>
 	</schema>
 </schemalist>
+

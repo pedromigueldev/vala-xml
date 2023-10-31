@@ -35,8 +35,14 @@ namespace ValaXml {
         public unowned Gtk.Button close_button;
 
         public SimpleActionGroup actions { get; construct; }
+        private GLib.Settings settings = new GLib.Settings ("valaxlm.pedromigueldev.github");
 
         construct {
+            this.settings.bind ("window-width", this, "default-width", SettingsBindFlags.DEFAULT);
+            this.settings.bind ("window-height", this, "default-height", SettingsBindFlags.DEFAULT);
+
+            this.ValaXmlSideBar.load_favorites (this.status_page);
+
             ActionEntry[] ACTION_ENTRIES = {
                     { "add_tab", this.on_click_add },
                     { "search_box", this.on_serach_add },
@@ -52,8 +58,8 @@ namespace ValaXml {
         public Window(Gtk.Application app) {
 
             Object(application: app);
-
             close_button.clicked.connect(() => {
+                this.ValaXmlSideBar.save_favorites();
                 this.destroy();
             });
 
@@ -129,3 +135,4 @@ namespace ValaXml {
         }
     }
 }
+

@@ -22,18 +22,25 @@ namespace ValaXml {
     [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/tab_button.ui")]
     public class Tab : Gtk.ListBoxRow {
 
-        [GtkChild]  private unowned Gtk.Image tab_image_icon;
+        [GtkChild]  private unowned Gtk.Button tab_button;
+        [GtkChild]  public unowned Gtk.Image tab_image_icon;
         [GtkChild]  private unowned Gtk.Label tab_label;
+        [GtkChild]  private unowned Gtk.Button close_button;
+        [GtkChild]  private unowned Gtk.Revealer up_revealer;
+        [GtkChild]  private unowned Gtk.Revealer down_revealer;
+
+        [GtkChild]  private unowned Gtk.DragSource drag_source;
+
 
         [GtkCallback] private void tab_clicked () { this.set_web_visible (); }
         [GtkCallback] private void tab_focused () { this.set_web_visible (); }
 
         [GtkCallback] private Gdk.ContentProvider on_drag_prepare() {
-            tab_container.select_row (this);
             this.set_sensitive (false);
             return new Gdk.ContentProvider.for_value (this);
         }
         [GtkCallback] private void on_drag_end () {
+            this.set_web_visible ();
             this.set_sensitive (true);
         }
         [GtkCallback] private void on_drag_begin (Gdk.Drag drag)   {
@@ -53,12 +60,22 @@ namespace ValaXml {
             icon.set_child(button_tab);
         }
 
-       [GtkCallback] public bool on_task_top_drop(Gtk.DropTarget target, GLib.Value data, double x, double y) {
+       [GtkCallback] public bool on_tab_top_drop(Gtk.DropTarget target, GLib.Value data, double x, double y) {
             var tab = (ValaXml.Tab) data;
 
             if (tab.parent == this.parent) {
                 tab_container.remove (tab);
                 tab_container.insert (tab, this.get_index ());
+            }
+            this.set_web_visible ();
+            return true;
+        }
+        [GtkCallback] public bool on_tab_down_drop(Gtk.DropTarget target, GLib.Value data, double x, double y) {
+            var tab = (ValaXml.Tab) data;
+
+            if (tab.parent == this.parent) {
+                tab_container.remove (tab);
+                tab_container.insert (tab, this.get_index ()+1);
             }
             return false;
         }
@@ -82,14 +99,17 @@ namespace ValaXml {
             web_container.remove (box);
             tab_container.remove (this);
             sidebar.search_bar.entry.set_text ("");
+            if ( this.is_favorite ) {
+                sidebar.remove_favorite(this.uuid);
+            };
         }
 
-
-        private string _uuid;
-        private Adw.ViewStack _web_container;
-        private WebViewApp _web_box;
-        private Gtk.ListBox _tab_container;
-        private ValaXml.SideBar _sidebar;
+        public bool is_favorite;
+        public string _uuid = "";
+        private Adw.ViewStack _web_container = null;
+        private WebViewApp _web_box = null;
+        private Gtk.ListBox _tab_container = null;
+        private ValaXml.SideBar _sidebar = null;
 
         public string uuid
         {
@@ -131,8 +151,48 @@ namespace ValaXml {
             }
         }
 
+        public Tab.control_button(Gtk.ListBox tab_container, string label, string icon_name = ""){
+            this.set_name (label);
+            this.up_revealer.unparent ();
+            this.tab_container = tab_container;
+
+            if(icon_name == "") {
+                tab_image_icon.visible = false;
+            } else {
+                tab_image_icon.set_from_icon_name (icon_name);
+                tab_image_icon.set_css_classes ({"icon_scale_down"});
+            };
+
+            close_button.visible = false;
+            tab_label.set_label(label);
+            tab_label.set_css_classes ({"dim-label"});
+            remove_controller (drag_source);
+        }
+
+        public Tab.control_button_with_action(Gtk.ListBox tab_container, string label, string icon_name = "", string action_name){
+            this.set_name (label);
+            this.up_revealer.unparent ();
+            this.tab_container = tab_container;
+            this.tab_button.set_action_name (action_name);
+
+            if(icon_name == "") {
+                tab_image_icon.visible = false;
+            } else {
+                tab_image_icon.set_from_icon_name (icon_name);
+                tab_image_icon.set_css_classes ({"icon_scale_down"});
+            };
+
+            close_button.visible = false;
+            tab_label.set_label(label);
+            tab_label.set_css_classes ({"dim-label"});
+            remove_controller (drag_source);
+        }
+
         public Tab (SideBar sidebar, ValaXml.WebViewApp web_box, Adw.ViewStack web_container, Gtk.ListBox tab_container)
         {
+            this.set_name ("tab");
+            this.down_revealer.unparent ();
+            this.tab_image_icon.margin_start = 14;
             this.uuid = web_box.uuid;
             this.web_box = web_box;
             this.web_container = web_container;
@@ -159,15 +219,20 @@ namespace ValaXml {
                 };
             });
 
+
         }
 
         public void set_web_visible ()
         {
-            ValaXml.WebViewApp.focused_webview = this.web_box.web_view;
+            if (this.web_box == null || this.uuid == null) return;
+            tab_container.select_row (this);
+            sidebar.search_bar.active_url = this.web_box.web_view.uri;
             web_container.set_visible_child_name(this.uuid);
+            ValaXml.WebViewApp.focused_webview = this.web_box.web_view;
 
         }
 
     }
 }
+
 
