@@ -56,7 +56,6 @@ namespace ValaXml {
 
         construct {
             entry.notify["text"].connect ((e, p) => {
-                print("This");
                 if (!ValaXml.Utils.verify_url (entry.text) && entry.text != "" ) {
                     this.entry.set_css_classes ({"error"});
                     return;

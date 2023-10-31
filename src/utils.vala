@@ -37,7 +37,7 @@ namespace ValaXml {
                 is_valid = false;
             }
 
-            print(is_valid ? "VALID: " + URL + "\n" : "NOT VALID: " + URL + "\n");
+            //print(is_valid ? "VALID: " + URL + "\n" : "NOT VALID: " + URL + "\n");
             return is_valid;
         }
 

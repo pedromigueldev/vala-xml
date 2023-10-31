@@ -22,8 +22,8 @@ namespace ValaXml {
     [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/sidebar.ui")]
     public class SideBar : Adw.NavigationPage {
 
-        public GLib.HashTable<string, string> fav_list = new GLib.HashTable<string, string>(null,null);
-        private GLib.Settings settings = new GLib.Settings ("valaxlm.pedromigueldev.github");
+        public static GLib.HashTable<string, string> fav_list = new GLib.HashTable<string, string>(null,null);
+        private static GLib.Settings settings = new GLib.Settings ("valaxlm.pedromigueldev.github");
 
         [GtkChild] private unowned Gtk.ListBox tab_container;
         [GtkChild] public unowned Gtk.ToggleButton show_sidebar_button;
@@ -37,38 +37,27 @@ namespace ValaXml {
             }
         }
 
-        public SideBar () {
-        }
-
-        construct {
-            ValaXml.Tab fav_button = new ValaXml.Tab.control_button (this.tab_container, "Favorites", "starred-symbolic");
-            ValaXml.Tab add_button = new ValaXml.Tab.control_button_with_action (this.tab_container, "New Tab", "list-add-symbolic", "win.add_tab");
-
-            tab_container.append (fav_button);
-            tab_container.append (add_button);
-
-        }
-
-        public void load_favorites (Adw.ViewStack web_container) {
-            var list = this.settings.get_strv ("favorites");
+        protected delegate void CreateWebView (string uuid, string url);
+        public static void load_favorites (CreateWebView create_web_view) {
+            var list = settings.get_strv ("favorites");
 
             foreach (string tab in list) {
                 string[] tab_split = tab.split ("!::", 10);
-
                 fav_list.set (tab_split[0], tab_split[1]);
             }
 
             fav_list.foreach ((uuid, url) => {
-                this.add_web_view (url, web_container, true, uuid);
+                create_web_view (uuid, url);
                 stdout.printf ("key: %s ; val: %s \n",uuid, url);
             });
 
         }
-        public void save_favorites () {
+        public static void save_favorites () {
             string[] to_save = {};
 
             if(fav_list.length <= 0) { print("nothing to print"); return; }
 
+            print("----------fav----------\n");
             fav_list.foreach ((uuid, url) => {
                 to_save += uuid + "!::" + url;
             });
@@ -77,11 +66,29 @@ namespace ValaXml {
                 stdout.printf ("%s\n", tab);
             }
 
-            return;
             settings.set_strv ("favorites", to_save);
+            return;
         }
-        public void remove_favorite(string r_uuid) {
-            this.fav_list.foreach_remove ((uuid, url) => {
+        public static void add_favorite(string r_uuid, string r_url) {
+            bool exists = false;
+
+            fav_list.find ((uuid, url) => {
+                if (uuid == r_uuid) {
+                    print("something\n");
+                    exists = true;
+                    return true;
+                }
+                return false;
+            });
+
+            if( !exists )
+                fav_list.set (r_uuid, r_url);
+
+            save_favorites ();
+        }
+
+        public static void remove_favorite(string r_uuid) {
+            fav_list.foreach_remove ((uuid, url) => {
                 if (uuid == r_uuid)
                     return true;
                 return false;
@@ -93,11 +100,10 @@ namespace ValaXml {
             ValaXml.WebViewApp web_box = new ValaXml.WebViewApp();
             ValaXml.Tab tab = new ValaXml.Tab (this, web_box, web_container, tab_container);
 
-
             if(is_favorite) {
                 tab.is_favorite = true;
                 tab.uuid = uuid;
-                 web_box.uuid = uuid;
+                web_box.uuid = uuid;
                 tab_container.insert (tab, 1);
                 web_container.add_named (web_box, uuid);
             } else {
@@ -109,6 +115,18 @@ namespace ValaXml {
             tab.set_web_visible();
 
             tab_container.get_last_child().focus(Gtk.DirectionType.TAB_FORWARD);
+        }
+
+        public SideBar () {
+        }
+
+        construct {
+            ValaXml.Tab fav_button = new ValaXml.Tab.control_button (this.tab_container, "Favorites", "starred-symbolic");
+            ValaXml.Tab add_button = new ValaXml.Tab.control_button_with_action (this.tab_container, "New Tab", "list-add-symbolic", "win.add_tab");
+
+            tab_container.append (fav_button);
+            tab_container.append (add_button);
+
         }
 
     }

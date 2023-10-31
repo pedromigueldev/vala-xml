@@ -41,7 +41,7 @@ namespace ValaXml {
             this.settings.bind ("window-width", this, "default-width", SettingsBindFlags.DEFAULT);
             this.settings.bind ("window-height", this, "default-height", SettingsBindFlags.DEFAULT);
 
-            this.ValaXmlSideBar.load_favorites (this.status_page);
+            ValaXml.SideBar.load_favorites ((uuid, url) => this.ValaXmlSideBar.add_web_view (url, this.status_page, true, uuid));
 
             ActionEntry[] ACTION_ENTRIES = {
                     { "add_tab", this.on_click_add },
@@ -59,7 +59,7 @@ namespace ValaXml {
 
             Object(application: app);
             close_button.clicked.connect(() => {
-                this.ValaXmlSideBar.save_favorites();
+                ValaXml.SideBar.save_favorites();
                 this.destroy();
             });
 

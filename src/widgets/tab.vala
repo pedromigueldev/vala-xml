@@ -63,6 +63,14 @@ namespace ValaXml {
        [GtkCallback] public bool on_tab_top_drop(Gtk.DropTarget target, GLib.Value data, double x, double y) {
             var tab = (ValaXml.Tab) data;
 
+            if (this.is_favorite) {
+                tab.is_favorite = true;
+                ValaXml.SideBar.add_favorite (tab.uuid, tab.web_box.web_view.uri);
+            } else {
+                tab.is_favorite = false;
+                ValaXml.SideBar.remove_favorite (tab.uuid);
+            }
+
             if (tab.parent == this.parent) {
                 tab_container.remove (tab);
                 tab_container.insert (tab, this.get_index ());
@@ -72,6 +80,14 @@ namespace ValaXml {
         }
         [GtkCallback] public bool on_tab_down_drop(Gtk.DropTarget target, GLib.Value data, double x, double y) {
             var tab = (ValaXml.Tab) data;
+
+            if (this.name == "Favorites"){
+                tab.is_favorite = true;
+                ValaXml.SideBar.add_favorite (tab.uuid, tab.web_box.web_view.uri);
+            } else {
+                tab.is_favorite = false;
+                ValaXml.SideBar.remove_favorite (tab.uuid);
+            }
 
             if (tab.parent == this.parent) {
                 tab_container.remove (tab);
@@ -100,7 +116,7 @@ namespace ValaXml {
             tab_container.remove (this);
             sidebar.search_bar.entry.set_text ("");
             if ( this.is_favorite ) {
-                sidebar.remove_favorite(this.uuid);
+                ValaXml.SideBar.remove_favorite(this.uuid);
             };
         }
 
@@ -155,6 +171,7 @@ namespace ValaXml {
             this.set_name (label);
             this.up_revealer.unparent ();
             this.tab_container = tab_container;
+            this.sidebar = sidebar;
 
             if(icon_name == "") {
                 tab_image_icon.visible = false;
