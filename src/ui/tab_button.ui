@@ -88,6 +88,7 @@
                         <property name="halign">start</property>
                         <property name="valign">fill</property>
                         <property name="ellipsize">end</property>
+                        <property name="label" translatable="yes"></property>
 
                         <style>
                           <class name="body"/>

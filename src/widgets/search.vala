@@ -55,6 +55,7 @@ namespace ValaXml {
         }
 
         construct {
+            entry.set_placeholder_text (_("Search"));
             entry.notify["text"].connect ((e, p) => {
                 if (!ValaXml.Utils.verify_url (entry.text) && entry.text != "" ) {
                     this.entry.set_css_classes ({"error"});

@@ -55,7 +55,11 @@ namespace ValaXml {
         public static void save_favorites () {
             string[] to_save = {};
 
-            if(fav_list.length <= 0) { print("nothing to print"); return; }
+            if(fav_list.length <= 0) {
+                settings.set_strv ("favorites", to_save);
+                print("nothing to print");
+                return;
+            }
 
             print("----------fav----------\n");
             fav_list.foreach ((uuid, url) => {
@@ -121,8 +125,8 @@ namespace ValaXml {
         }
 
         construct {
-            ValaXml.Tab fav_button = new ValaXml.Tab.control_button (this.tab_container, "Favorites", "starred-symbolic");
-            ValaXml.Tab add_button = new ValaXml.Tab.control_button_with_action (this.tab_container, "New Tab", "list-add-symbolic", "win.add_tab");
+            ValaXml.Tab fav_button = new ValaXml.Tab.control_button (this.tab_container, _("Favorites"), "starred-symbolic");
+            ValaXml.Tab add_button = new ValaXml.Tab.control_button_with_action (this.tab_container, _("New Tab"), "list-add-symbolic", "win.add_tab");
 
             tab_container.append (fav_button);
             tab_container.append (add_button);

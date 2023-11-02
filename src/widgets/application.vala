@@ -18,6 +18,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+
 namespace ValaXml {
     public class Application : Adw.Application {
         public Application () {
@@ -32,6 +33,7 @@ namespace ValaXml {
             };
             this.add_action_entries (action_entries, this);
             this.set_accels_for_action ("app.quit", { "<primary>q" });
+
         }
 
         public override void activate () {

@@ -7,6 +7,20 @@ project('vala-xml', ['c', 'vala'],
 i18n = import('i18n')
 gnome = import('gnome')
 
+config_data = configuration_data()
+config_data.set('GETTEXT_PACKAGE', meson.project_name())
+config_data.set('LOCALEDIR', join_paths(get_option('prefix'), get_option('localedir')))
+config_data.set_quoted('PROJECT_NAME', meson.project_name())
+config_data.set_quoted('VERSION', meson.project_version())
+config_data.set_quoted('GETTEXT_PACKAGE', meson.project_name())
+
+add_global_arguments(
+	'-DGETTEXT_PACKAGE="@0@"'.format(meson.project_name()),
+	'-DLOCALEDIR="@0@"'.format(get_option('localedir')),
+	language:'c'
+)
+
+
 subdir('data')
 subdir('src')
 subdir('po')
