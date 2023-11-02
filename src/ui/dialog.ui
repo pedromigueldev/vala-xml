@@ -16,7 +16,7 @@
           <object class="GtkLabel" id="error_message">
             <property name="visible">false</property>
             <property name="halign">start</property>
-            <property name="label">Not valid url</property>
+            <property name="label" translatable="yes">Not valid url</property>
             <property name="margin-bottom">6</property>
 
             <style>
@@ -29,7 +29,7 @@
 
         <child>
           <object class="GtkEntry" id="url_entry">
-            <property name="placeholder_text">Serch for website</property>
+            <property name="placeholder_text" translatable="yes">Serch for website</property>
             <property name="hexpand">true</property>
           </object>
         </child>

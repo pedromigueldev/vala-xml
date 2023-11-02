@@ -8,3 +8,5 @@ src/widgets/sidebar.vala
 src/ui/sidebar.ui
 src/widgets/search.vala
 src/ui/search.ui
+src/widgets/dialog.vala
+src/ui/dialog.ui

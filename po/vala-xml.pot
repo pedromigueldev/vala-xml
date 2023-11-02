@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-01 22:01-0400\n"
+"POT-Creation-Date: 2023-11-02 10:20-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,6 +52,22 @@ msgstr ""
 msgid "Sidebar"
 msgstr ""
 
-#: src/widgets/search.vala:58
+#: src/widgets/search.vala:58 src/ui/dialog.ui:42
 msgid "Search"
+msgstr ""
+
+#: src/ui/dialog.ui:7
+msgid "Open New tab"
+msgstr ""
+
+#: src/ui/dialog.ui:19
+msgid "Not valid url"
+msgstr ""
+
+#: src/ui/dialog.ui:32
+msgid "Serch for website"
+msgstr ""
+
+#: src/ui/dialog.ui:41
+msgid "Cancel"
 msgstr ""

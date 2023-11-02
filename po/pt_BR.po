@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-01 22:01-0400\n"
-"PO-Revision-Date: 2023-11-01 22:05-0400\n"
+"POT-Creation-Date: 2023-11-02 10:20-0400\n"
+"PO-Revision-Date: 2023-11-02 10:22-0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: pt_BR\n"
@@ -52,6 +52,22 @@ msgstr "Nova aba"
 msgid "Sidebar"
 msgstr ""
 
-#: src/widgets/search.vala:58
+#: src/widgets/search.vala:58 src/ui/dialog.ui:42
 msgid "Search"
 msgstr "Pesquisar"
+
+#: src/ui/dialog.ui:7
+msgid "Open New tab"
+msgstr "Abrir nova aba"
+
+#: src/ui/dialog.ui:19
+msgid "Not valid url"
+msgstr "A URL não é valida"
+
+#: src/ui/dialog.ui:32
+msgid "Serch for website"
+msgstr "Pesquise por um website"
+
+#: src/ui/dialog.ui:41
+msgid "Cancel"
+msgstr "Cancelar"
