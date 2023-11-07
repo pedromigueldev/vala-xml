@@ -31,7 +31,6 @@ namespace ValaXml {
 
         [GtkChild]  private unowned Gtk.DragSource drag_source;
 
-
         [GtkCallback] private void tab_clicked () { this.set_web_visible (); }
         [GtkCallback] private void tab_focused () { this.set_web_visible (); }
 

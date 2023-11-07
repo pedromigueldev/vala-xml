@@ -3,7 +3,7 @@
   <requires lib="gtk" version="4.0"/>
   <requires lib="Adw" version="1.4"/>
   <template class="ValaXmlSearch" parent="GtkBox">
-    <style>
+      <style>
           <class name="linked"/>
       </style>
 
@@ -11,6 +11,7 @@
         <object class="GtkEntry" id="entry">
           <property name="hexpand">True</property>
           <property name="placeholder-text"></property>
+          <signal name="activate" handler="enter_gest"/>
 
           <property name="text"
             bind-source="ValaXmlSearch"

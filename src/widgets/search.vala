@@ -22,6 +22,12 @@ namespace ValaXml {
     [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/search.ui")]
     public class Search : Gtk.Box {
 
+        [GtkChild]  public unowned Gtk.Entry entry;
+        [GtkChild]  public unowned Gtk.Button search_entry_button;
+
+        [GtkCallback]   private void enter_gest (Gtk.Entry entry) {
+            this.search_entry_button.activate ();
+        }
 
         private string _active_url = "";
         public string active_url {
@@ -30,8 +36,6 @@ namespace ValaXml {
                 _active_url = value;
             }
         }
-
-        [GtkChild] public unowned Gtk.Entry entry;
 
         public void go_search () {
             this.entry.remove_css_class ("error");

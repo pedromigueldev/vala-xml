@@ -25,14 +25,10 @@ namespace ValaXml {
     [GtkTemplate(ui = "/valaxlm/pedromigueldev/github/ui/window.ui")]
     public class Window : Adw.Window {
 
-        [GtkChild]
-        public unowned ValaXml.SideBar ValaXmlSideBar;
-        [GtkChild]
-        public unowned Adw.ViewStack status_page;
-        [GtkChild]
-        public unowned Gtk.Overlay overlay;
-        [GtkChild]
-        public unowned Gtk.Button close_button;
+        [GtkChild]  public unowned ValaXml.SideBar ValaXmlSideBar;
+        [GtkChild]  public unowned Adw.ViewStack status_page;
+        [GtkChild]  public unowned Gtk.Overlay overlay;
+        [GtkChild]  public unowned Gtk.Button close_button;
 
         public SimpleActionGroup actions { get; construct; }
         private GLib.Settings settings = new GLib.Settings ("valaxlm.pedromigueldev.github");
@@ -64,6 +60,7 @@ namespace ValaXml {
             });
 
         }
+
         private void on_click_add () {
             ValaXml.Dialog dialog = new ValaXml.Dialog (this);
             dialog.open_dialog((url) => ValaXmlSideBar.add_web_view(url, this.status_page));
@@ -75,6 +72,7 @@ namespace ValaXml {
             }
             ValaXmlSideBar.search_bar.go_search ();
         }
+
         private void refresh_page () {
             WebViewApp.refresh ();
         }
