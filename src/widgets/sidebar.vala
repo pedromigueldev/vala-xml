@@ -28,6 +28,7 @@ namespace ValaXml {
         [GtkChild] private unowned Gtk.ListBox tab_container;
         [GtkChild] public unowned Gtk.ToggleButton show_sidebar_button;
         [GtkChild] public unowned ValaXml.Search search_bar;
+        [GtkChild] public unowned Gtk.Box page_nav;
 
         private bool _sidebar_active;
         public bool sidebar_active {

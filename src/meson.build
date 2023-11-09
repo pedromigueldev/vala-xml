@@ -6,7 +6,9 @@ vala_xml_sources = [
 	'widgets/tab.vala',
 	'widgets/dialog.vala',
 	'widgets/search.vala',
+	'widgets/webview.vala',
   	'utils.vala',
+  	'vui.vala',
   	configure_file(
 		input: 'widgets/config.vala.in',
 		output: '@BASENAME@',
